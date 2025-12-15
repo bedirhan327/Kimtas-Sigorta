@@ -61,7 +61,7 @@ const itemFadeIn = {
 };
 
 function TurkishInsuranceLanding() {
-  const EMAIL_ACTIVE = false;
+  const EMAIL_ACTIVE = true; // Deneme modu - gerçek mail gönderimi aktif
   const EMAIL_TO = "bedirhan.kartal5@gmail.com";
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);

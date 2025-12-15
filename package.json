@@ -2,6 +2,7 @@
   "name": "guven-sigorta-landing",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "node ./node_modules/vite/bin/vite.js build",
@@ -21,8 +22,10 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0-alpha.24",
+    "@types/node": "^20.14.0",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
+    "@vercel/node": "^3.0.0",
     "@vitejs/plugin-react-swc": "^3.7.0",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
