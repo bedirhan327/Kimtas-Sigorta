@@ -71,6 +71,7 @@ function TurkishInsuranceLanding() {
   const [isDark, setIsDark] = useState(false);
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
+  const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -394,7 +395,13 @@ function TurkishInsuranceLanding() {
                 <Moon className="h-4 w-4" />
               )}
             </button>
-            <Button size="sm" className="rounded-full">
+            <Button 
+              size="sm" 
+              className="rounded-full"
+              onClick={() => {
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
               Teklif Al
             </Button>
           </div>
@@ -471,7 +478,17 @@ function TurkishInsuranceLanding() {
                     </>
                   )}
                 </button>
-                <Button className="w-full rounded-full">Teklif Al</Button>
+                <Button 
+                  className="w-full rounded-full"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setTimeout(() => {
+                      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }}
+                >
+                  Teklif Al
+                </Button>
               </div>
             </motion.div>
           </motion.nav>
@@ -527,7 +544,13 @@ function TurkishInsuranceLanding() {
                   transition={{ duration: 0.7, delay: 0.6 }}
                   className="flex flex-col gap-3 sm:flex-row"
                 >
-                  <Button size="lg" className="rounded-full group">
+                  <Button 
+                    size="lg" 
+                    className="rounded-full group"
+                    onClick={() => {
+                      document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
                     Hemen Teklif Al
                     <motion.span
                       initial={{ x: 0 }}
@@ -545,6 +568,7 @@ function TurkishInsuranceLanding() {
                     variant="outline"
                     size="lg"
                     className="rounded-full"
+                    onClick={() => setIsPhoneModalOpen(true)}
                   >
                     Bizi Arayın
                   </Button>
@@ -860,9 +884,12 @@ function TurkishInsuranceLanding() {
                 kısa sürede size dönelim.
               </p>
               <div className="space-y-4 pt-4">
-                <motion.div
+                <motion.a
+                  href="https://www.google.com/maps/place//data=!4m2!3m1!1s0x14c9480ea78ba161:0x93a27d0cf12fb813?sa=X&ved=1t:8290&hl=tr&gl=TR&ictx=111"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ x: 5 }}
-                  className="flex items-start gap-3"
+                  className="flex items-start gap-3 cursor-pointer hover:opacity-80 transition-opacity"
                 >
                   <div className="rounded-full bg-muted p-2">
                     <MapPin className="h-5 w-5 text-primary" />
@@ -873,7 +900,7 @@ function TurkishInsuranceLanding() {
                     Mecidiye, Abdurrahman Paşa Cd., 43050 Kütahya
                     </p>
                   </div>
-                </motion.div>
+                </motion.a>
                 <motion.div
                   whileHover={{ x: 5 }}
                   className="flex items-start gap-3"
@@ -888,9 +915,11 @@ function TurkishInsuranceLanding() {
                     </p>
                   </div>
                 </motion.div>
-                <motion.div
+                <motion.button
+                  type="button"
+                  onClick={() => setIsPhoneModalOpen(true)}
                   whileHover={{ x: 5 }}
-                  className="flex items-start gap-3"
+                  className="flex items-start gap-3 cursor-pointer hover:opacity-80 transition-opacity w-full text-left"
                 >
                   <div className="rounded-full bg-muted p-2">
                     <Phone className="h-5 w-5 text-primary" />
@@ -901,7 +930,7 @@ function TurkishInsuranceLanding() {
                     0274 224 33 51 / 0536 436 32 45 / 0533 334 26 25
                     </p>
                   </div>
-                </motion.div>
+                </motion.button>
               </div>
             </motion.div>
             <motion.div
@@ -914,35 +943,142 @@ function TurkishInsuranceLanding() {
               <p className="text-sm text-muted-foreground mb-6">
                 Bilgilerinizi doldurun, size en uygun teklifi hazırlayalım.
               </p>
-              <form className="space-y-4">
+              <form 
+                className="space-y-4"
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  
+                  // Form verilerini al
+                  const firstName = String(formData.get("firstName") || "").trim();
+                  const lastName = String(formData.get("lastName") || "").trim();
+                  const email = String(formData.get("email") || "").trim();
+                  const phone = String(formData.get("phone") || "").trim();
+                  const message = String(formData.get("message") || "").trim();
+                  
+                  // Validasyon
+                  if (!firstName) {
+                    alert("Ad alanı zorunludur.");
+                    return;
+                  }
+                  
+                  if (!lastName) {
+                    alert("Soyad alanı zorunludur.");
+                    return;
+                  }
+                  
+                  if (!phone) {
+                    alert("Telefon numarası zorunludur.");
+                    return;
+                  }
+                  
+                  // Telefon validasyonu (10 haneli rakam)
+                  const phoneRegex = /^[0-9]{10}$/;
+                  if (!phoneRegex.test(phone)) {
+                    alert("Telefon numarası 10 haneli rakam olmalıdır. Örnek: 5123456789");
+                    return;
+                  }
+                  
+                  // Email validasyonu (opsiyonel ama doldurulmuşsa geçerli olmalı)
+                  if (email) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                      alert("Geçerli bir e-posta adresi giriniz.");
+                      return;
+                    }
+                  }
+                  
+                  if (!message) {
+                    alert("Mesaj alanı zorunludur.");
+                    return;
+                  }
+                  
+                  // Form verilerini hazırla
+                  const data: Record<string, string> = {
+                    "Ad": firstName,
+                    "Soyad": lastName,
+                    "Telefon": phone,
+                    "Mesaj": message,
+                  };
+                  
+                  if (email) {
+                    data["E-posta"] = email;
+                  }
+                  
+                  if (!EMAIL_ACTIVE) {
+                    console.log("[EMAIL_DISABLED] Contact form request", {
+                      serviceName: "İletişim Formu",
+                      data,
+                    });
+                    alert(
+                      "Şu anda deneme modundayız, bilgiler kaydedildi ama e-posta gönderilmedi."
+                    );
+                    (e.target as HTMLFormElement).reset();
+                    return;
+                  }
+                  
+                  try {
+                    const res = await fetch("/api/send-service-request", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        serviceName: "İletişim Formu",
+                        data,
+                        to: EMAIL_TO,
+                      }),
+                    });
+                    
+                    if (!res.ok) {
+                      throw new Error("Request failed");
+                    }
+                    
+                    alert(
+                      "Talebiniz alındı! En kısa sürede sizinle iletişime geçeceğiz."
+                    );
+                    (e.target as HTMLFormElement).reset();
+                  } catch (error) {
+                    console.error(error);
+                    alert(
+                      "Talebiniz gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+                    );
+                  }
+                }}
+              >
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <label htmlFor="first-name" className="text-sm font-medium">
-                      Ad
+                      Ad <span className="text-red-500">*</span>
                     </label>
                     <Input
                       id="first-name"
+                      name="firstName"
                       placeholder="Adınız"
                       className="rounded-full"
+                      required
                     />
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="last-name" className="text-sm font-medium">
-                      Soyad
+                      Soyad <span className="text-red-500">*</span>
                     </label>
                     <Input
                       id="last-name"
+                      name="lastName"
                       placeholder="Soyadınız"
                       className="rounded-full"
+                      required
                     />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-sm font-medium">
-                    E-posta
+                    E-posta (opsiyonel)
                   </label>
                   <Input
                     id="email"
+                    name="email"
                     type="email"
                     placeholder="E-posta adresiniz"
                     className="rounded-full"
@@ -950,23 +1086,35 @@ function TurkishInsuranceLanding() {
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="phone" className="text-sm font-medium">
-                    Telefon
+                    Telefon <span className="text-red-500">*</span>
                   </label>
                   <Input
                     id="phone"
+                    name="phone"
                     type="tel"
-                    placeholder="Telefon numaranız"
+                    placeholder="5123456789"
+                    maxLength={10}
+                    pattern="[0-9]{10}"
                     className="rounded-full"
+                    required
+                    onChange={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                    }}
                   />
+                  <p className="text-xs text-muted-foreground">
+                    Örnek format: 5123456789 (10 haneli rakam)
+                  </p>
                 </div>
                 <div className="space-y-2">
                   <label htmlFor="message" className="text-sm font-medium">
-                    Mesajınız
+                    Mesajınız <span className="text-red-500">*</span>
                   </label>
                   <Textarea
                     id="message"
+                    name="message"
                     placeholder="Hangi sigorta ürünü ile ilgileniyorsunuz?"
                     className="min-h-[120px] rounded-3xl"
+                    required
                   />
                 </div>
                 <motion.div
@@ -1356,6 +1504,78 @@ function TurkishInsuranceLanding() {
                   Teklif Gönder
                 </Button>
               </form>
+            </motion.div>
+          </motion.div>
+        )}
+        
+        {/* Phone Modal */}
+        {isPhoneModalOpen && (
+          <motion.div
+            key="phone-modal"
+            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsPhoneModalOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.95, y: 20, opacity: 0 }}
+              className="w-full max-w-md rounded-3xl bg-background border shadow-xl p-6 md:p-8 relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setIsPhoneModalOpen(false)}
+                className="absolute right-4 top-4 rounded-full border border-border bg-muted/60 p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+                aria-label="Kapat"
+              >
+                <X className="h-4 w-4" />
+              </button>
+              <div className="mb-6 space-y-2">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="rounded-full bg-primary/10 p-3">
+                    <Phone className="h-6 w-6 text-primary" />
+                  </div>
+                  <h2 className="text-2xl font-bold">Bizi Arayın</h2>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Size en uygun numaradan ulaşabilirsiniz
+                </p>
+              </div>
+              <div className="space-y-3">
+                <a
+                  href="tel:02742243351"
+                  className="flex items-center justify-between p-4 rounded-2xl border border-border hover:bg-muted/50 transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <Phone className="h-5 w-5 text-primary" />
+                    <span className="font-medium">0274 224 33 51</span>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </a>
+                <a
+                  href="tel:05364363245"
+                  className="flex items-center justify-between p-4 rounded-2xl border border-border hover:bg-muted/50 transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <Phone className="h-5 w-5 text-primary" />
+                    <span className="font-medium">0536 436 32 45</span>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </a>
+                <a
+                  href="tel:05333342625"
+                  className="flex items-center justify-between p-4 rounded-2xl border border-border hover:bg-muted/50 transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <Phone className="h-5 w-5 text-primary" />
+                    <span className="font-medium">0533 334 26 25</span>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </a>
+              </div>
             </motion.div>
           </motion.div>
         )}
