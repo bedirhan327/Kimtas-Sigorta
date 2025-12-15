@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Shield,
   Car,
@@ -61,11 +61,16 @@ const itemFadeIn = {
 };
 
 function TurkishInsuranceLanding() {
+  const EMAIL_ACTIVE = false;
+  const EMAIL_TO = "bedirhan.kartal5@gmail.com";
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [isDark, setIsDark] = useState(false);
+  const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -103,6 +108,14 @@ function TurkishInsuranceLanding() {
   }, [isDark]);
 
   const handleThemeToggle = () => setIsDark((prev) => !prev);
+  const openServiceForm = (serviceTitle: string) => {
+    setSelectedService(serviceTitle);
+    setIsServiceModalOpen(true);
+  };
+  const closeServiceForm = () => {
+    setIsServiceModalOpen(false);
+    setSelectedService(null);
+  };
 
   useEffect(() => {
     if (!api) return;
@@ -163,6 +176,79 @@ function TurkishInsuranceLanding() {
     },
   ];
 
+  const serviceFieldConfig: Record<
+    string,
+    { label: string; name: string; type?: string; textarea?: boolean }[]
+  > = {
+    "Trafik Sigortası": [
+      {
+        label: "Ulaşımı hangi yolla almak istersiniz? (Telefon / Gmail)",
+        name: "contactPreference",
+      },
+      { label: "Telefon Numarası", name: "phone", type: "tel" },
+      { label: "E-posta Adresi", name: "email", type: "email" },
+      { label: "Plaka", name: "plate" },
+      { label: "T.C. Kimlik Numarası", name: "tc" },
+      { label: "Ruhsat Belgesi", name: "ruhsat" },
+    ],
+    "Kasko Sigortası": [
+      {
+        label: "Ulaşımı hangi yolla almak istersiniz? (Telefon / Gmail)",
+        name: "contactPreference",
+      },
+      { label: "Telefon Numarası", name: "phone", type: "tel" },
+      { label: "E-posta Adresi", name: "email", type: "email" },
+      { label: "T.C. Kimlik Numarası", name: "tc" },
+      { label: "Plaka", name: "plate" },
+    ],
+    DASK: [
+      {
+        label: "Ulaşımı hangi yolla almak istersiniz? (Telefon / Gmail)",
+        name: "contactPreference",
+      },
+      { label: "Telefon Numarası", name: "phone", type: "tel" },
+      { label: "E-posta Adresi", name: "email", type: "email" },
+      { label: "Adres (Açık ve net)", name: "address", textarea: true },
+      { label: "Kaç m²", name: "area" },
+      { label: "T.C. Kimlik Numarası", name: "tc" },
+    ],
+    "Sağlık Sigortası": [
+      {
+        label: "Ulaşımı hangi yolla almak istersiniz? (Telefon / Gmail)",
+        name: "contactPreference",
+      },
+      { label: "Telefon Numarası", name: "phone", type: "tel" },
+      { label: "E-posta Adresi", name: "email", type: "email" },
+      { label: "T.C. Kimlik Numarası", name: "tc" },
+      { label: "Doğum Tarihi", name: "dob", type: "date" },
+      { label: "Boy (cm)", name: "height" },
+      { label: "Kilo (kg)", name: "weight" },
+    ],
+    "Konut Sigortası": [
+      {
+        label: "Ulaşımı hangi yolla almak istersiniz? (Telefon / Gmail)",
+        name: "contactPreference",
+      },
+      { label: "Telefon Numarası", name: "phone", type: "tel" },
+      { label: "E-posta Adresi", name: "email", type: "email" },
+      { label: "T.C. Kimlik Numarası", name: "tc" },
+      { label: "Açık Adres", name: "address", textarea: true },
+      { label: "Konut Bedeli", name: "homeValue" },
+      { label: "Eşya Bedeli", name: "contentValue" },
+    ],
+    "İşyeri Sigortası": [
+      {
+        label: "Ulaşımı hangi yolla almak istersiniz? (Telefon / Gmail)",
+        name: "contactPreference",
+      },
+      { label: "Telefon Numarası", name: "phone", type: "tel" },
+      { label: "E-posta Adresi", name: "email", type: "email" },
+      { label: "T.C. Kimlik Numarası", name: "tc" },
+      { label: "İşyeri Adı", name: "businessName" },
+      { label: "İşyeri Adresi", name: "businessAddress", textarea: true },
+    ],
+  };
+
   const advantages = [
     {
       title: "Hızlı Teklif",
@@ -211,6 +297,51 @@ function TurkishInsuranceLanding() {
     },
   ];
 
+  const partnerCompanies = [
+    {
+      name: "Anadolu Sigorta",
+      logo: "/logos/anadolu-sigorta.png",
+      url: "https://www.anadolusigorta.com.tr/",
+      heightClass: "h-8 md:h-9 lg:h-10",
+    },
+    {
+      name: "Türkiye Sigorta",
+      logo: "/logos/turkiye-sigorta.png",
+      url: "https://www.turkiyesigorta.com.tr/",
+      heightClass: "h-8 md:h-9 lg:h-10",
+    },
+    {
+      name: "HDI Sigorta",
+      logo: "/logos/hdi-sigorta.png",
+      url: "https://www.hdisigorta.com.tr/",
+      heightClass: "h-10 md:h-12 lg:h-14",
+    },
+    {
+      name: "Sompo Sigorta",
+      logo: "/logos/sompo-sigorta.png",
+      url: "https://www.somposigorta.com.tr/",
+      heightClass: "h-11 md:h-13 lg:h-16",
+    },
+    {
+      name: "Neova Sigorta",
+      logo: "/logos/neova-sigorta.png",
+      url: "https://www.neova.com.tr/",
+      heightClass: "h-13 md:h-15 lg:h-13",
+    },
+    {
+      name: "Bereket Sigorta",
+      logo: "/logos/bereket-sigorta.png",
+      url: "https://www.bereketsigorta.com.tr/",
+      heightClass: "h-11 md:h-13 lg:h-16",
+    },
+    {
+      name: "Hepiyi Sigorta",
+      logo: "/logos/hepiyi-sigorta.png",
+      url: "https://hepiyi.com.tr/",
+      heightClass: "h-10 md:h-12 lg:h-14",
+    },
+  ];
+
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-background via-background to-muted/20">
       {/* Header */}
@@ -253,6 +384,12 @@ function TurkishInsuranceLanding() {
               className="text-sm font-medium transition-colors hover:text-primary"
             >
               Referanslar
+            </a>
+            <a
+              href="#partners"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
+              Sigorta Şirketleri
             </a>
             <a
               href="#contact"
@@ -317,6 +454,7 @@ function TurkishInsuranceLanding() {
               { label: "Hizmetler", href: "#services" },
               { label: "Avantajlar", href: "#advantages" },
               { label: "Referanslar", href: "#testimonials" },
+              { label: "Sigorta Şirketleri", href: "#partners" },
               { label: "İletişim", href: "#contact" },
             ].map((item) => (
               <motion.div key={item.href} variants={itemFadeIn}>
@@ -491,11 +629,13 @@ function TurkishInsuranceLanding() {
               className="mx-auto grid max-w-5xl items-center gap-6 py-12 md:grid-cols-2 lg:grid-cols-3"
             >
               {services.map((service) => (
-                <motion.div
+                <motion.button
+                  type="button"
                   key={service.title}
                   variants={itemFadeIn}
                   whileHover={{ y: -10, transition: { duration: 0.3 } }}
-                  className="group relative overflow-hidden rounded-3xl border p-6 shadow-sm transition-all hover:shadow-md bg-background"
+                  className="group relative overflow-hidden rounded-3xl border p-6 shadow-sm transition-all hover:shadow-md bg-background text-left"
+                  onClick={() => openServiceForm(service.title)}
                 >
                   <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-all duration-300" />
                   <div className="relative space-y-3">
@@ -520,7 +660,7 @@ function TurkishInsuranceLanding() {
                       <ArrowRight className="h-4 w-4 text-primary" />
                     </motion.div>
                   </div>
-                </motion.div>
+                </motion.button>
               ))}
             </motion.div>
           </motion.div>
@@ -652,6 +792,62 @@ function TurkishInsuranceLanding() {
           </div>
         </section>
 
+        {/* Partner Companies Section */}
+        <section
+          id="partners"
+          className="w-full py-12 md:py-24 lg:py-32 bg-background"
+        >
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeIn}
+            className="container px-4 md:px-6"
+          >
+            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-8 md:mb-12">
+              <div className="space-y-3">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+                  className="inline-block rounded-full bg-primary/10 px-4 py-1 text-sm text-primary"
+                >
+                  Çözüm Ortaklarımız
+                </motion.div>
+                <motion.h2
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
+                >
+                  Anlaşmalı Olduğumuz Sigorta Şirketleri
+                </motion.h2>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="flex items-center gap-8 md:gap-12 overflow-x-auto pb-4 md:pb-2 scrollbar-none snap-x snap-mandatory">
+                {partnerCompanies.map((company) => (
+                  <a
+                    key={company.name}
+                    href={company.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-shrink-0 snap-center flex items-center justify-center"
+                    aria-label={company.name}
+                  >
+                    <img
+                      src={company.logo}
+                      alt={company.name}
+                      className={`${company.heightClass ?? "h-10 md:h-12 lg:h-14"} w-auto object-contain transition-transform duration-200 hover:scale-[1.03]`}
+                      loading="lazy"
+                    />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
         {/* Contact/Quote Form Section */}
         <section
           id="contact"
@@ -691,7 +887,7 @@ function TurkishInsuranceLanding() {
                   <div>
                     <h3 className="font-medium">Adres</h3>
                     <p className="text-sm text-muted-foreground">
-                      Atatürk Cad. No:123, İstanbul
+                    Mecidiye, Abdurrahman Paşa Cd., 43050 Kütahya
                     </p>
                   </div>
                 </motion.div>
@@ -705,7 +901,7 @@ function TurkishInsuranceLanding() {
                   <div>
                     <h3 className="font-medium">E-posta</h3>
                     <p className="text-sm text-muted-foreground">
-                      info@kimtassigorta.com
+                    kimtassigorta@gmail.com
                     </p>
                   </div>
                 </motion.div>
@@ -719,7 +915,7 @@ function TurkishInsuranceLanding() {
                   <div>
                     <h3 className="font-medium">Telefon</h3>
                     <p className="text-sm text-muted-foreground">
-                      0850 123 45 67
+                    0274 224 33 51 / 0536 436 32 45 / 0533 334 26 25
                     </p>
                   </div>
                 </motion.div>
@@ -912,6 +1108,124 @@ function TurkishInsuranceLanding() {
           </div>
         </div>
       </footer>
+
+      <AnimatePresence>
+        {isServiceModalOpen && selectedService && (
+          <motion.div
+            key="service-modal"
+            className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.95, y: 20, opacity: 0 }}
+              className="w-full max-w-xl rounded-3xl bg-background border shadow-xl p-6 md:p-8 relative"
+            >
+              <button
+                type="button"
+                onClick={closeServiceForm}
+                className="absolute right-4 top-4 rounded-full border border-border bg-muted/60 p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+                aria-label="Kapat"
+              >
+                <X className="h-4 w-4" />
+              </button>
+              <div className="mb-4 space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+                  Hızlı Teklif Formu
+                </p>
+                <h2 className="text-2xl font-bold">
+                  {selectedService} için bilgi alın
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  Bilgilerinizi doldurun, ekibimiz sizinle en kısa sürede
+                  iletişime geçsin.
+                </p>
+              </div>
+              <form
+                className="space-y-4 mt-4"
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  const data: Record<string, string> = {};
+                  formData.forEach((value, key) => {
+                    data[key] = String(value);
+                  });
+
+                  if (!EMAIL_ACTIVE) {
+                    console.log("[EMAIL_DISABLED] Service request", {
+                      serviceName: selectedService,
+                      data,
+                    });
+                    alert(
+                      "Şu anda deneme modundayız, bilgiler kaydedildi ama e-posta gönderilmedi."
+                    );
+                    closeServiceForm();
+                    return;
+                  }
+
+                  try {
+                    const res = await fetch("/api/send-service-request", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        serviceName: selectedService,
+                        data,
+                        to: EMAIL_TO,
+                      }),
+                    });
+
+                    if (!res.ok) {
+                      throw new Error("Request failed");
+                    }
+
+                    alert(
+                      "Talebiniz alındı! En kısa sürede sizinle iletişime geçeceğiz."
+                    );
+                    closeServiceForm();
+                  } catch (error) {
+                    console.error(error);
+                    alert(
+                      "Talebiniz gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+                    );
+                  }
+                }}
+              >
+                {(serviceFieldConfig[selectedService] ?? []).map((field) => (
+                  <div key={field.name} className="space-y-2">
+                    <label
+                      htmlFor={field.name}
+                      className="text-sm font-medium"
+                    >
+                      {field.label}
+                    </label>
+                    {field.textarea ? (
+                      <Textarea
+                        id={field.name}
+                        name={field.name}
+                        className="min-h-[90px]"
+                      />
+                    ) : (
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        type={field.type ?? "text"}
+                      />
+                    )}
+                  </div>
+                ))}
+                <Button type="submit" className="w-full rounded-full mt-2">
+                  Teklif Gönder
+                </Button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

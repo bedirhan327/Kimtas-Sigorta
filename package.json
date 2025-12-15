@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "nodemailer": "^6.9.15",
     "embla-carousel-react": "^8.3.0",
     "framer-motion": "^11.11.1",
     "lucide-react": "^0.472.0",
