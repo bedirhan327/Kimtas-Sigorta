@@ -61,7 +61,7 @@ const itemFadeIn = {
 };
 
 function TurkishInsuranceLanding() {
-  const EMAIL_ACTIVE = true; // Deneme modu - gerçek mail gönderimi aktif
+  const EMAIL_ACTIVE = false; // Deneme modu - gerçek mail gönderimi aktif
   const EMAIL_TO = "bedirhan.kartal5@gmail.com";
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -178,74 +178,57 @@ function TurkishInsuranceLanding() {
 
   const serviceFieldConfig: Record<
     string,
-    { label: string; name: string; type?: string; textarea?: boolean }[]
+    { 
+      label: string; 
+      name: string; 
+      type?: string; 
+      textarea?: boolean;
+      required?: boolean;
+      special?: 'phone' | 'tc' | 'plate';
+    }[]
   > = {
     "Trafik Sigortası": [
-      {
-        label: "Ulaşımı hangi yolla almak istersiniz? (Telefon / Gmail)",
-        name: "contactPreference",
-      },
-      { label: "Telefon Numarası", name: "phone", type: "tel" },
-      { label: "E-posta Adresi", name: "email", type: "email" },
-      { label: "Plaka", name: "plate" },
-      { label: "T.C. Kimlik Numarası", name: "tc" },
-      { label: "Ruhsat Belgesi", name: "ruhsat" },
+      { label: "Telefon Numarası", name: "phone", type: "tel", required: true, special: 'phone' },
+      { label: "E-posta Adresi (opsiyonel)", name: "email", type: "email", required: false },
+      { label: "Plaka", name: "plate", required: true, special: 'plate' },
+      { label: "T.C. Kimlik Numarası", name: "tc", required: true, special: 'tc' },
+      { label: "Ruhsat Belgesi", name: "ruhsat", required: true },
     ],
     "Kasko Sigortası": [
-      {
-        label: "Ulaşımı hangi yolla almak istersiniz? (Telefon / Gmail)",
-        name: "contactPreference",
-      },
-      { label: "Telefon Numarası", name: "phone", type: "tel" },
-      { label: "E-posta Adresi", name: "email", type: "email" },
-      { label: "T.C. Kimlik Numarası", name: "tc" },
-      { label: "Plaka", name: "plate" },
+      { label: "Telefon Numarası", name: "phone", type: "tel", required: true, special: 'phone' },
+      { label: "E-posta Adresi (opsiyonel)", name: "email", type: "email", required: false },
+      { label: "T.C. Kimlik Numarası", name: "tc", required: true, special: 'tc' },
+      { label: "Plaka", name: "plate", required: true, special: 'plate' },
     ],
     DASK: [
-      {
-        label: "Ulaşımı hangi yolla almak istersiniz? (Telefon / Gmail)",
-        name: "contactPreference",
-      },
-      { label: "Telefon Numarası", name: "phone", type: "tel" },
-      { label: "E-posta Adresi", name: "email", type: "email" },
-      { label: "Adres (Açık ve net)", name: "address", textarea: true },
-      { label: "Kaç m²", name: "area" },
-      { label: "T.C. Kimlik Numarası", name: "tc" },
+      { label: "Telefon Numarası", name: "phone", type: "tel", required: true, special: 'phone' },
+      { label: "E-posta Adresi (opsiyonel)", name: "email", type: "email", required: false },
+      { label: "Adres (Açık ve net)", name: "address", textarea: true, required: true },
+      { label: "Kaç m²", name: "area", required: true },
+      { label: "T.C. Kimlik Numarası", name: "tc", required: true, special: 'tc' },
     ],
     "Sağlık Sigortası": [
-      {
-        label: "Ulaşımı hangi yolla almak istersiniz? (Telefon / Gmail)",
-        name: "contactPreference",
-      },
-      { label: "Telefon Numarası", name: "phone", type: "tel" },
-      { label: "E-posta Adresi", name: "email", type: "email" },
-      { label: "T.C. Kimlik Numarası", name: "tc" },
-      { label: "Doğum Tarihi", name: "dob", type: "date" },
-      { label: "Boy (cm)", name: "height" },
-      { label: "Kilo (kg)", name: "weight" },
+      { label: "Telefon Numarası", name: "phone", type: "tel", required: true, special: 'phone' },
+      { label: "E-posta Adresi (opsiyonel)", name: "email", type: "email", required: false },
+      { label: "T.C. Kimlik Numarası", name: "tc", required: true, special: 'tc' },
+      { label: "Doğum Tarihi", name: "dob", type: "date", required: true },
+      { label: "Boy (cm)", name: "height", required: true },
+      { label: "Kilo (kg)", name: "weight", required: true },
     ],
     "Konut Sigortası": [
-      {
-        label: "Ulaşımı hangi yolla almak istersiniz? (Telefon / Gmail)",
-        name: "contactPreference",
-      },
-      { label: "Telefon Numarası", name: "phone", type: "tel" },
-      { label: "E-posta Adresi", name: "email", type: "email" },
-      { label: "T.C. Kimlik Numarası", name: "tc" },
-      { label: "Açık Adres", name: "address", textarea: true },
-      { label: "Konut Bedeli", name: "homeValue" },
-      { label: "Eşya Bedeli", name: "contentValue" },
+      { label: "Telefon Numarası", name: "phone", type: "tel", required: true, special: 'phone' },
+      { label: "E-posta Adresi (opsiyonel)", name: "email", type: "email", required: false },
+      { label: "T.C. Kimlik Numarası", name: "tc", required: true, special: 'tc' },
+      { label: "Açık Adres", name: "address", textarea: true, required: true },
+      { label: "Konut Bedeli", name: "homeValue", required: true },
+      { label: "Eşya Bedeli", name: "contentValue", required: true },
     ],
     "İşyeri Sigortası": [
-      {
-        label: "Ulaşımı hangi yolla almak istersiniz? (Telefon / Gmail)",
-        name: "contactPreference",
-      },
-      { label: "Telefon Numarası", name: "phone", type: "tel" },
-      { label: "E-posta Adresi", name: "email", type: "email" },
-      { label: "T.C. Kimlik Numarası", name: "tc" },
-      { label: "İşyeri Adı", name: "businessName" },
-      { label: "İşyeri Adresi", name: "businessAddress", textarea: true },
+      { label: "Telefon Numarası", name: "phone", type: "tel", required: true, special: 'phone' },
+      { label: "E-posta Adresi (opsiyonel)", name: "email", type: "email", required: false },
+      { label: "T.C. Kimlik Numarası", name: "tc", required: true, special: 'tc' },
+      { label: "İşyeri Adı", name: "businessName", required: true },
+      { label: "İşyeri Adresi", name: "businessAddress", textarea: true, required: true },
     ],
   };
 
@@ -647,7 +630,7 @@ function TurkishInsuranceLanding() {
                   </div>
                   <div className="mt-4 flex items-center justify-between">
                     <span className="text-sm font-medium text-primary">
-                      Detaylı Bilgi
+                      Hemen Teklif alın
                     </span>
                     <motion.div
                       whileHover={{ x: 5 }}
@@ -1007,7 +990,7 @@ function TurkishInsuranceLanding() {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeIn}
-          className="container grid gap-8 px-4 py-10 md:px-6 lg:grid-cols-4"
+          className="container grid gap-8 px-4 py-10 md:px-6 lg:grid-cols-3"
         >
           <div className="space-y-3">
             <div className="flex items-center space-x-3">
@@ -1082,22 +1065,6 @@ function TurkishInsuranceLanding() {
               </a>
             </nav>
           </div>
-          <div className="space-y-3">
-            <h3 className="text-lg font-medium">Bülten</h3>
-            <p className="text-sm text-muted-foreground">
-              Kampanya ve haberlerden haberdar olun.
-            </p>
-            <form className="flex space-x-2">
-              <Input
-                type="email"
-                placeholder="E-posta adresiniz"
-                className="rounded-full"
-              />
-              <Button type="submit" className="rounded-full">
-                Abone Ol
-              </Button>
-            </form>
-          </div>
         </motion.div>
         <div className="border-t">
           <div className="container flex flex-col items-center justify-between gap-4 py-6 md:h-16 md:flex-row md:py-0">
@@ -1150,9 +1117,68 @@ function TurkishInsuranceLanding() {
                   e.preventDefault();
                   const formData = new FormData(e.currentTarget);
                   const data: Record<string, string> = {};
-                  formData.forEach((value, key) => {
-                    data[key] = String(value);
-                  });
+                  const fields = serviceFieldConfig[selectedService] ?? [];
+                  
+                  // Validasyon kontrolü
+                  for (const field of fields) {
+                    let value = "";
+                    
+                    // Plaka için özel işlem
+                    if (field.special === 'plate') {
+                      const plate1 = String(formData.get(`${field.name}_1`) || "").trim();
+                      const plate2 = String(formData.get(`${field.name}_2`) || "").trim();
+                      const plate3 = String(formData.get(`${field.name}_3`) || "").trim();
+                      
+                      if (field.required && (!plate1 || !plate2 || !plate3)) {
+                        alert(`${field.label} alanı zorunludur. Tüm bölümleri doldurun.`);
+                        return;
+                      }
+                      
+                      if (plate1 || plate2 || plate3) {
+                        value = `${plate1}-${plate2}-${plate3}`;
+                        data[field.name] = value;
+                      }
+                      continue;
+                    }
+                    
+                    value = String(formData.get(field.name) || "").trim();
+                    
+                    // Zorunlu alan kontrolü
+                    if (field.required && !value) {
+                      alert(`${field.label} alanı zorunludur.`);
+                      return;
+                    }
+                    
+                    // Özel validasyonlar
+                    if (field.special === 'phone' && value) {
+                      const phoneRegex = /^[0-9]{10}$/;
+                      if (!phoneRegex.test(value)) {
+                        alert("Telefon numarası 10 haneli rakam olmalıdır. Örnek: 5123456789");
+                        return;
+                      }
+                    }
+                    
+                    if (field.special === 'tc' && value) {
+                      const tcRegex = /^[0-9]{11}$/;
+                      if (!tcRegex.test(value)) {
+                        alert("T.C. Kimlik Numarası 11 haneli rakam olmalıdır.");
+                        return;
+                      }
+                    }
+                    
+                    // E-posta validasyonu (opsiyonel ama doldurulmuşsa geçerli olmalı)
+                    if (field.type === 'email' && value) {
+                      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                      if (!emailRegex.test(value)) {
+                        alert("Geçerli bir e-posta adresi giriniz.");
+                        return;
+                      }
+                    }
+                    
+                    if (value) {
+                      data[field.name] = value;
+                    }
+                  }
 
                   if (!EMAIL_ACTIVE) {
                     console.log("[EMAIL_DISABLED] Service request", {
@@ -1195,29 +1221,137 @@ function TurkishInsuranceLanding() {
                   }
                 }}
               >
-                {(serviceFieldConfig[selectedService] ?? []).map((field) => (
-                  <div key={field.name} className="space-y-2">
-                    <label
-                      htmlFor={field.name}
-                      className="text-sm font-medium"
-                    >
-                      {field.label}
-                    </label>
-                    {field.textarea ? (
-                      <Textarea
-                        id={field.name}
-                        name={field.name}
-                        className="min-h-[90px]"
-                      />
-                    ) : (
-                      <Input
-                        id={field.name}
-                        name={field.name}
-                        type={field.type ?? "text"}
-                      />
-                    )}
-                  </div>
-                ))}
+                {(serviceFieldConfig[selectedService] ?? []).map((field) => {
+                  // Plaka için özel render
+                  if (field.special === 'plate') {
+                    return (
+                      <div key={field.name} className="space-y-2">
+                        <label htmlFor={`${field.name}_1`} className="text-sm font-medium">
+                          {field.label} {field.required && <span className="text-red-500">*</span>}
+                        </label>
+                        <div className="flex gap-2 items-center">
+                          <Input
+                            id={`${field.name}_1`}
+                            name={`${field.name}_1`}
+                            type="text"
+                            placeholder="34"
+                            maxLength={2}
+                            pattern="[0-9]*"
+                            required={field.required}
+                            className="w-16 text-center"
+                            onChange={(e) => {
+                              e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                            }}
+                          />
+                          <span className="text-muted-foreground">-</span>
+                          <Input
+                            id={`${field.name}_2`}
+                            name={`${field.name}_2`}
+                            type="text"
+                            placeholder="ABC"
+                            maxLength={4}
+                            pattern="[A-Za-z]*"
+                            required={field.required}
+                            className="flex-1 uppercase"
+                            onChange={(e) => {
+                              e.target.value = e.target.value.replace(/[^A-Za-z]/g, '').toUpperCase();
+                            }}
+                          />
+                          <span className="text-muted-foreground">-</span>
+                          <Input
+                            id={`${field.name}_3`}
+                            name={`${field.name}_3`}
+                            type="text"
+                            placeholder="ABCD"
+                            maxLength={4}
+                            pattern="[A-Za-z]*"
+                            required={field.required}
+                            className="flex-1 uppercase"
+                            onChange={(e) => {
+                              e.target.value = e.target.value.replace(/[^A-Za-z]/g, '').toUpperCase();
+                            }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  }
+                  
+                  // Telefon için özel render
+                  if (field.special === 'phone') {
+                    return (
+                      <div key={field.name} className="space-y-2">
+                        <label htmlFor={field.name} className="text-sm font-medium">
+                          {field.label} {field.required && <span className="text-red-500">*</span>}
+                        </label>
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          type="tel"
+                          placeholder="5123456789"
+                          maxLength={10}
+                          pattern="[0-9]{10}"
+                          required={field.required}
+                          onChange={(e) => {
+                            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                          }}
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Örnek format: 5123456789 (10 haneli rakam)
+                        </p>
+                      </div>
+                    );
+                  }
+                  
+                  // TC için özel render
+                  if (field.special === 'tc') {
+                    return (
+                      <div key={field.name} className="space-y-2">
+                        <label htmlFor={field.name} className="text-sm font-medium">
+                          {field.label} {field.required && <span className="text-red-500">*</span>}
+                        </label>
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          type="text"
+                          placeholder="12345678901"
+                          maxLength={11}
+                          pattern="[0-9]{11}"
+                          required={field.required}
+                          onChange={(e) => {
+                            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                          }}
+                        />
+                      </div>
+                    );
+                  }
+                  
+                  // Normal alanlar
+                  return (
+                    <div key={field.name} className="space-y-2">
+                      <label
+                        htmlFor={field.name}
+                        className="text-sm font-medium"
+                      >
+                        {field.label} {field.required && <span className="text-red-500">*</span>}
+                      </label>
+                      {field.textarea ? (
+                        <Textarea
+                          id={field.name}
+                          name={field.name}
+                          className="min-h-[90px]"
+                          required={field.required}
+                        />
+                      ) : (
+                        <Input
+                          id={field.name}
+                          name={field.name}
+                          type={field.type ?? "text"}
+                          required={field.required}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
                 <Button type="submit" className="w-full rounded-full mt-2">
                   Teklif Gönder
                 </Button>
