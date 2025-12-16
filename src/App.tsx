@@ -118,6 +118,10 @@ function TurkishInsuranceLanding() {
     setSelectedService(null);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   useEffect(() => {
     if (!api) return;
 
@@ -339,16 +343,25 @@ function TurkishInsuranceLanding() {
       >
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex items-center space-x-3">
+            <button
+              type="button"
+              onClick={scrollToTop}
+              className="flex items-center space-x-3 focus:outline-none"
+              aria-label="Ana sayfa"
+            >
               <motion.div
-                whileHover={{ rotate: 5, scale: 1.1 }}
+                whileHover={{ rotate: 5, scale: 1.03 }}
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                className="h-10 w-10 rounded-full bg-primary flex items-center justify-center"
+                className="h-10 w-10 rounded-full bg-background border border-border dark:bg-primary dark:border-transparent flex items-center justify-center overflow-hidden"
               >
-                <Shield className="h-5 w-5 text-primary-foreground" />
+                <img
+                  src="/logo.png"
+                  alt="Kimtaş Sigorta Logosu"
+                  className="h-9 w-9 rounded-full object-cover"
+                />
               </motion.div>
-              <span className="font-bold text-xl">KİMTAŞSİGORTA</span>
-            </div>
+              <span className="font-bold text-xl">Kimtaş Sigorta</span>
+            </button>
           </div>
           <nav className="hidden md:flex gap-6">
             <a
@@ -422,12 +435,24 @@ function TurkishInsuranceLanding() {
         >
           <div className="container flex h-16 items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex items-center space-x-3">
-                <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center">
-                  <Shield className="h-5 w-5 text-primary-foreground" />
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  scrollToTop();
+                }}
+                className="flex items-center space-x-3 focus:outline-none"
+                aria-label="Ana sayfa"
+              >
+                <div className="h-10 w-10 rounded-full bg-background border border-border dark:bg-primary dark:border-transparent flex items-center justify-center overflow-hidden">
+                  <img
+                    src="/logo.png"
+                    alt="Kimtaş Sigorta Logosu"
+                    className="h-9 w-9 rounded-full object-cover"
+                  />
                 </div>
-                <span className="font-bold text-xl">KİMTAŞSİGORTA</span>
-              </div>
+                <span className="font-bold text-xl">Kimtaş Sigorta</span>
+              </button>
             </div>
             <button onClick={toggleMenu}>
               <X className="h-6 w-6" />
@@ -933,6 +958,15 @@ function TurkishInsuranceLanding() {
                     </p>
                   </div>
                 </motion.button>
+                <div className="mt-4 rounded-3xl overflow-hidden border bg-muted/30 h-[220px] md:h-[260px]">
+                  <iframe
+                    title="Kimtaş Sigorta Konum"
+                    src="https://www.google.com/maps?q=Mecidiye,+Abdurrahman+Pa%C5%9Fa+Cd.,+43050+K%C3%BCtahya&output=embed"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="w-full h-full border-0"
+                  ></iframe>
+                </div>
               </div>
             </motion.div>
             <motion.div
@@ -1151,7 +1185,7 @@ function TurkishInsuranceLanding() {
               >
                 <Shield className="h-5 w-5 text-primary-foreground" />
               </motion.div>
-              <span className="font-bold text-xl">KİMTAŞSİGORTA</span>
+              <span className="font-bold text-xl">Kimtaş Sigorta</span>
             </div>
             <p className="text-sm text-muted-foreground">
               20 yıllık tecrübemizle güvenilir sigorta çözümleri sunuyoruz.
@@ -1219,7 +1253,7 @@ function TurkishInsuranceLanding() {
         <div className="border-t">
           <div className="container flex flex-col items-center justify-between gap-4 py-6 md:h-16 md:flex-row md:py-0">
             <p className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} KİMTAŞSİGORTA. Tüm hakları
+              &copy; {new Date().getFullYear()} Kimtaş Sigorta. Tüm hakları
               saklıdır.
             </p>
           </div>
