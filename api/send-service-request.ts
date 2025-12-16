@@ -13,14 +13,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     data,
     to: overrideTo,
   }: { serviceName: string; data: Record<string, string>; to?: string } =
-    req.body || {};
+    (req.body as any) || {};
 
   if (!serviceName || !data) {
     res.status(400).json({ error: "Missing serviceName or data" });
     return;
   }
 
-  const to = overrideTo || process.env.EMAIL_TO;
+  // Öncelik her zaman sunucu tarafındaki EMAIL_TO ortam değişkeninde.
+  // Body'den gelen 'to' sadece EMAIL_TO ayarlı değilse kullanılır.
+  const to = process.env.EMAIL_TO || overrideTo;
 
   if (!EMAIL_ENABLED) {
     console.log("[EMAIL_DISABLED] Incoming request", { serviceName, data, to });

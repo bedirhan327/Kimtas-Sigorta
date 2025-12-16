@@ -62,7 +62,7 @@ const itemFadeIn = {
 
 function TurkishInsuranceLanding() {
   const EMAIL_ACTIVE = true; // Deneme modu - gerçek mail gönderimi aktif
-  const EMAIL_TO = "bedirhan.kartal5@gmail.com";
+  const EMAIL_TO = "kimtassigorta@gmail.com";
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -898,6 +898,8 @@ function TurkishInsuranceLanding() {
                     <h3 className="font-medium">Adres</h3>
                     <p className="text-sm text-muted-foreground">
                     Mecidiye, Abdurrahman Paşa Cd., 43050 Kütahya
+                    <br />
+                    (Sevgi Yolu Evkur İş merkezi 2. Kat)
                     </p>
                   </div>
                 </motion.a>
@@ -1410,13 +1412,13 @@ function TurkishInsuranceLanding() {
                             id={`${field.name}_3`}
                             name={`${field.name}_3`}
                             type="text"
-                            placeholder="ABCD"
+                            placeholder="1234"
                             maxLength={4}
-                            pattern="[A-Za-z]*"
+                            pattern="[0-9]*"
                             required={field.required}
-                            className="flex-1 uppercase"
+                            className="w-20 text-center"
                             onChange={(e) => {
-                              e.target.value = e.target.value.replace(/[^A-Za-z]/g, '').toUpperCase();
+                              e.target.value = e.target.value.replace(/[^0-9]/g, '');
                             }}
                           />
                         </div>
