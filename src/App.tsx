@@ -961,7 +961,7 @@ function TurkishInsuranceLanding() {
                 <div className="mt-4 rounded-3xl overflow-hidden border bg-muted/30 h-[220px] md:h-[260px]">
                   <iframe
                     title="Kimtaş Sigorta Konum"
-                    src="https://www.google.com/maps?q=Mecidiye,+Abdurrahman+Pa%C5%9Fa+Cd.,+43050+K%C3%BCtahya&output=embed"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3082.2704314530893!2d29.9806002!3d39.418008799999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c9480ea78ba161%3A0x93a27d0cf12fb813!2sKimta%C5%9F%20Sigorta!5e0!3m2!1str!2str!4v1765897246346!5m2!1str!2str"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     className="w-full h-full border-0"
