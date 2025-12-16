@@ -185,7 +185,7 @@ function TurkishInsuranceLanding() {
       type?: string; 
       textarea?: boolean;
       required?: boolean;
-      special?: 'phone' | 'tc' | 'plate';
+      special?: 'phone' | 'tc' | 'plate' | 'ruhsat';
     }[]
   > = {
     "Trafik Sigortası": [
@@ -193,7 +193,7 @@ function TurkishInsuranceLanding() {
       { label: "E-posta Adresi (opsiyonel)", name: "email", type: "email", required: false },
       { label: "Plaka", name: "plate", required: true, special: 'plate' },
       { label: "T.C. Kimlik Numarası", name: "tc", required: true, special: 'tc' },
-      { label: "Ruhsat Belgesi", name: "ruhsat", required: true },
+      { label: "Ruhsat Belge Seri No:", name: "ruhsat", required: true, special: 'ruhsat' },
     ],
     "Kasko Sigortası": [
       { label: "Telefon Numarası", name: "phone", type: "tel", required: true, special: 'phone' },
@@ -1273,8 +1273,8 @@ function TurkishInsuranceLanding() {
                   for (const field of fields) {
                     let value = "";
                     
-                    // Plaka için özel işlem
-                    if (field.special === 'plate') {
+                  // Plaka için özel işlem
+                  if (field.special === 'plate') {
                       const plate1 = String(formData.get(`${field.name}_1`) || "").trim();
                       const plate2 = String(formData.get(`${field.name}_2`) || "").trim();
                       const plate3 = String(formData.get(`${field.name}_3`) || "").trim();
@@ -1286,6 +1286,36 @@ function TurkishInsuranceLanding() {
                       
                       if (plate1 || plate2 || plate3) {
                         value = `${plate1}-${plate2}-${plate3}`;
+                        data[field.name] = value;
+                      }
+                      continue;
+                    }
+
+                    // Ruhsat seri no için özel işlem (ör: AB-123456)
+                    if (field.special === 'ruhsat') {
+                      const series = String(formData.get(`${field.name}_series`) || "").trim();
+                      const number = String(formData.get(`${field.name}_number`) || "").trim();
+
+                      if (field.required && (!series || !number)) {
+                        alert(`${field.label} alanı zorunludur. Tüm bölümleri doldurun.`);
+                        return;
+                      }
+
+                      if (series || number) {
+                        const seriesRegex = /^[A-Za-z]{2}$/;
+                        const numberRegex = /^[0-9]{6}$/;
+
+                        if (!seriesRegex.test(series)) {
+                          alert("Ruhsat seri kısmı 2 harf olmalıdır. Örnek: AB");
+                          return;
+                        }
+
+                        if (!numberRegex.test(number)) {
+                          alert("Ruhsat belge numarası 6 haneli rakam olmalıdır. Örnek: 123456");
+                          return;
+                        }
+
+                        value = `${series}-${number}`;
                         data[field.name] = value;
                       }
                       continue;
@@ -1417,6 +1447,46 @@ function TurkishInsuranceLanding() {
                             pattern="[0-9]*"
                             required={field.required}
                             className="w-20 text-center"
+                            onChange={(e) => {
+                              e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                            }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  // Ruhsat seri no için özel render
+                  if (field.special === 'ruhsat') {
+                    return (
+                      <div key={field.name} className="space-y-2">
+                        <label htmlFor={`${field.name}_series`} className="text-sm font-medium">
+                          {field.label} {field.required && <span className="text-red-500">*</span>}
+                        </label>
+                        <div className="flex gap-2 items-center">
+                          <Input
+                            id={`${field.name}_series`}
+                            name={`${field.name}_series`}
+                            type="text"
+                            placeholder="AB"
+                            maxLength={2}
+                            pattern="[A-Za-z]*"
+                            required={field.required}
+                            className="w-16 text-center uppercase"
+                            onChange={(e) => {
+                              e.target.value = e.target.value.replace(/[^A-Za-z]/g, '').toUpperCase();
+                            }}
+                          />
+                          <span className="text-muted-foreground">-</span>
+                          <Input
+                            id={`${field.name}_number`}
+                            name={`${field.name}_number`}
+                            type="text"
+                            placeholder="123456"
+                            maxLength={6}
+                            pattern="[0-9]*"
+                            required={field.required}
+                            className="flex-1"
                             onChange={(e) => {
                               e.target.value = e.target.value.replace(/[^0-9]/g, '');
                             }}
