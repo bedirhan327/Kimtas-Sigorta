@@ -13,7 +13,6 @@ import {
   Menu,
   X,
   ArrowRight,
-  Star,
   Moon,
   Sun,
 } from "lucide-react";
@@ -26,11 +25,6 @@ import {
   CarouselItem,
   CarouselApi,
 } from "@/components/ui/carousel";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -66,8 +60,8 @@ function TurkishInsuranceLanding() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
+  const [partnersApi, setPartnersApi] = useState<CarouselApi>();
+  const [partnersCurrent, setPartnersCurrent] = useState(0);
   const [isDark, setIsDark] = useState(false);
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
@@ -88,12 +82,10 @@ function TurkishInsuranceLanding() {
     if (stored === "dark") {
       setIsDark(true);
       document.documentElement.classList.add("dark");
-    } else if (stored === "light") {
+    } else {
+      // Varsayılan olarak light mode
       setIsDark(false);
       document.documentElement.classList.remove("dark");
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setIsDark(true);
-      document.documentElement.classList.add("dark");
     }
   }, []);
 
@@ -123,20 +115,20 @@ function TurkishInsuranceLanding() {
   };
 
   useEffect(() => {
-    if (!api) return;
+    if (!partnersApi) return;
 
     const id = setTimeout(() => {
-      if (api.selectedScrollSnap() + 1 === api.scrollSnapList().length) {
-        setCurrent(0);
-        api.scrollTo(0);
+      if (partnersApi.selectedScrollSnap() + 1 === partnersApi.scrollSnapList().length) {
+        setPartnersCurrent(0);
+        partnersApi.scrollTo(0);
       } else {
-        api.scrollNext();
-        setCurrent((prev) => prev + 1);
+        partnersApi.scrollNext();
+        setPartnersCurrent((prev) => prev + 1);
       }
-    }, 4000);
+    }, 3000);
 
     return () => clearTimeout(id);
-  }, [api, current]);
+  }, [partnersApi, partnersCurrent]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -257,34 +249,6 @@ function TurkishInsuranceLanding() {
     },
   ];
 
-  const testimonials = [
-    {
-      name: "Ahmet Yılmaz",
-      role: "İstanbul",
-      text: "Kasko sigortam için en uygun teklifi aldım. Çok memnun kaldım, herkese tavsiye ederim.",
-    },
-    {
-      name: "Ayşe Demir",
-      role: "Ankara",
-      text: "Profesyonel ve güler yüzlü hizmet. DASK sigortamı çok hızlı bir şekilde yaptırdım.",
-    },
-    {
-      name: "Mehmet Kaya",
-      role: "İzmir",
-      text: "Yıllardır çalıştığım sigorta acentesi. Güvenilir ve kaliteli hizmet sunuyorlar.",
-    },
-    {
-      name: "Fatma Şahin",
-      role: "Bursa",
-      text: "Sağlık sigortam için çok detaylı bilgi verdiler. Teşekkür ederim.",
-    },
-    {
-      name: "Ali Öztürk",
-      role: "Antalya",
-      text: "Trafik sigortamı yenilemek için aradım, hem ucuz hem de hızlı işlem yaptılar.",
-    },
-  ];
-
   const partnerCompanies = [
     {
       name: "Anadolu Sigorta",
@@ -377,12 +341,6 @@ function TurkishInsuranceLanding() {
               Avantajlar
             </a>
             <a
-              href="#testimonials"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Referanslar
-            </a>
-            <a
               href="#partners"
               className="text-sm font-medium transition-colors hover:text-primary"
             >
@@ -468,7 +426,6 @@ function TurkishInsuranceLanding() {
             {[
               { label: "Hizmetler", href: "#services" },
               { label: "Avantajlar", href: "#advantages" },
-              { label: "Referanslar", href: "#testimonials" },
               { label: "Sigorta Şirketleri", href: "#partners" },
               { label: "İletişim", href: "#contact" },
             ].map((item) => (
@@ -524,7 +481,7 @@ function TurkishInsuranceLanding() {
         {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 overflow-hidden">
           <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
+            <div className="flex flex-col items-center justify-center">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -598,16 +555,6 @@ function TurkishInsuranceLanding() {
                     Bizi Arayın
                   </Button>
                 </motion.div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, x: 100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                className="flex items-center justify-center"
-              >
-                <div className="relative h-[350px] w-full md:h-[450px] lg:h-[500px] rounded-3xl bg-gradient-to-br from-primary/20 to-blue-600/20 flex items-center justify-center">
-                  <Shield className="h-48 w-48 text-primary/40" />
-                </div>
               </motion.div>
             </div>
           </div>
@@ -757,73 +704,6 @@ function TurkishInsuranceLanding() {
           </motion.div>
         </section>
 
-        {/* Testimonials Section */}
-        <section
-          id="testimonials"
-          className="w-full py-12 md:py-24 lg:py-32 bg-muted/30"
-        >
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-              <div className="space-y-3">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
-                  className="inline-block rounded-full bg-primary/10 px-4 py-1 text-sm text-primary"
-                >
-                  Müşteri Yorumları
-                </motion.div>
-                <motion.h2
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
-                >
-                  Müşterilerimiz Ne Diyor?
-                </motion.h2>
-              </div>
-            </div>
-            <Carousel setApi={setApi} className="w-full max-w-5xl mx-auto">
-              <CarouselContent>
-                {testimonials.map((testimonial) => (
-                  <CarouselItem
-                    className="md:basis-1/2 lg:basis-1/2"
-                    key={testimonial.name}
-                  >
-                    <div className="bg-background rounded-3xl h-full p-6 shadow-sm border flex flex-col justify-between">
-                      <div className="flex gap-1 mb-4">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star
-                            key={i}
-                            className="h-4 w-4 fill-yellow-400 text-yellow-400"
-                          />
-                        ))}
-                      </div>
-                      <p className="text-muted-foreground mb-6">
-                        {testimonial.text}
-                      </p>
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-10 w-10">
-                          <AvatarImage alt={testimonial.name} />
-                          <AvatarFallback>
-                            {testimonial.name.charAt(0)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="font-semibold">{testimonial.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {testimonial.role}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-          </div>
-        </section>
-
         {/* Partner Companies Section */}
         <section
           id="partners"
@@ -856,26 +736,32 @@ function TurkishInsuranceLanding() {
                 </motion.h2>
               </div>
             </div>
-            <div className="relative">
-              <div className="flex items-center gap-8 md:gap-12 overflow-x-auto pb-4 md:pb-2 scrollbar-none snap-x snap-mandatory">
-                {partnerCompanies.map((company) => (
-                  <a
-                    key={company.name}
-                    href={company.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-shrink-0 snap-center flex items-center justify-center"
-                    aria-label={company.name}
-                  >
-                    <img
-                      src={company.logo}
-                      alt={company.name}
-                      className={`${company.heightClass ?? "h-10 md:h-12 lg:h-14"} w-auto object-contain transition-transform duration-200 hover:scale-[1.03]`}
-                      loading="lazy"
-                    />
-                  </a>
-                ))}
-              </div>
+            <div className="relative mx-auto max-w-6xl">
+              <Carousel setApi={setPartnersApi} className="w-full">
+                <CarouselContent className="-ml-2 md:-ml-4">
+                  {partnerCompanies.map((company) => (
+                    <CarouselItem
+                      key={company.name}
+                      className="pl-2 md:pl-4 basis-auto"
+                    >
+                      <a
+                        href={company.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center h-20 md:h-24 lg:h-28 w-32 md:w-40 lg:w-48 p-2 transition-transform duration-200 hover:scale-[1.03]"
+                        aria-label={company.name}
+                      >
+                        <img
+                          src={company.logo}
+                          alt={company.name}
+                          className={`${company.heightClass ?? "h-10 md:h-12 lg:h-14"} w-auto object-contain transition-transform duration-200`}
+                          loading="lazy"
+                        />
+                      </a>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
             </div>
           </motion.div>
         </section>
