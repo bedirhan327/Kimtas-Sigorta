@@ -15,6 +15,8 @@ import {
   ArrowRight,
   Moon,
   Sun,
+  Briefcase,
+  Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +27,7 @@ import {
   CarouselItem,
   CarouselApi,
 } from "@/components/ui/carousel";
+import { NavBar } from "@/components/ui/tubelight-navbar";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -66,13 +69,33 @@ function TurkishInsuranceLanding() {
   const [selectedService, setSelectedService] = useState<string | null>(null);
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
+  const [activeNavTab, setActiveNavTab] = useState("Hizmetler");
 
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
+      
+      // Determine active section based on scroll position
+      const sections = [
+        { id: 'services', name: 'Hizmetler' },
+        { id: 'advantages', name: 'Avantajlar' },
+        { id: 'partners', name: 'Sigorta Şirketleri' },
+        { id: 'contact', name: 'İletişim' },
+      ];
+      
+      const scrollPosition = window.scrollY + 200; // Offset for better UX
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const element = document.getElementById(sections[i].id);
+        if (element && element.offsetTop <= scrollPosition) {
+          setActiveNavTab(sections[i].name);
+          break;
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Initial check
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -327,32 +350,21 @@ function TurkishInsuranceLanding() {
               <span className="font-bold text-xl">Kimtaş Sigorta</span>
             </button>
           </div>
-          <nav className="hidden md:flex gap-6">
-            <a
-              href="#services"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Hizmetler
-            </a>
-            <a
-              href="#advantages"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Avantajlar
-            </a>
-            <a
-              href="#partners"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              Sigorta Şirketleri
-            </a>
-            <a
-              href="#contact"
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              İletişim
-            </a>
-          </nav>
+          
+          {/* Navbar - Desktop'ta ortada, mobilde gizli */}
+          <div className="hidden md:flex absolute left-1/2 -translate-x-1/2">
+            <NavBar
+              items={[
+                { name: "Hizmetler", url: "#services", icon: Shield },
+                { name: "Avantajlar", url: "#advantages", icon: CheckCircle },
+                { name: "Sigorta Şirketleri", url: "#partners", icon: Briefcase },
+                { name: "İletişim", url: "#contact", icon: Phone },
+              ]}
+              activeTab={activeNavTab}
+              onTabChange={setActiveNavTab}
+            />
+          </div>
+
           <div className="hidden md:flex items-center gap-3">
             <button
               type="button"
@@ -382,6 +394,20 @@ function TurkishInsuranceLanding() {
           </button>
         </div>
       </motion.header>
+
+      {/* Tubelight Navbar - Mobilde bottom'da */}
+      <div className="md:hidden">
+        <NavBar
+          items={[
+            { name: "Hizmetler", url: "#services", icon: Shield },
+            { name: "Avantajlar", url: "#advantages", icon: CheckCircle },
+            { name: "Sigorta Şirketleri", url: "#partners", icon: Briefcase },
+            { name: "İletişim", url: "#contact", icon: Phone },
+          ]}
+          activeTab={activeNavTab}
+          onTabChange={setActiveNavTab}
+        />
+      </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
@@ -477,7 +503,7 @@ function TurkishInsuranceLanding() {
         </motion.div>
       )}
 
-      <main className="flex-1">
+      <main className="flex-1 pb-20 sm:pb-0">
         {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 overflow-hidden">
           <div className="container px-4 md:px-6">
