@@ -57,7 +57,7 @@ export function NavBar({ items, className, activeTab: externalActiveTab, onTabCh
   return (
     <div
       className={cn(
-        "fixed bottom-0 sm:relative sm:bottom-auto left-1/2 sm:left-auto -translate-x-1/2 sm:translate-x-0 z-[60] mb-4 sm:mb-0 sm:pt-0",
+        "relative z-[60]",
         className,
       )}
     >

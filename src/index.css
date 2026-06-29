@@ -123,4 +123,9 @@
   }
 }
 
+/* Tailwind v4 container max-width verir ama ortalamaz */
+.container {
+  margin-inline: auto;
+}
+
 

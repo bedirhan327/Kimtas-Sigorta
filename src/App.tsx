@@ -351,8 +351,8 @@ function TurkishInsuranceLanding() {
             </button>
           </div>
           
-          {/* Navbar - Desktop'ta ortada, mobilde gizli */}
-          <div className="hidden md:flex absolute left-1/2 -translate-x-1/2">
+          {/* Navbar - Desktop'ta ortada, mobilde logo ile menü arasında */}
+          <div className="absolute left-1/2 -translate-x-1/2">
             <NavBar
               items={[
                 { name: "Hizmetler", url: "#services", icon: Shield },
@@ -394,20 +394,6 @@ function TurkishInsuranceLanding() {
           </button>
         </div>
       </motion.header>
-
-      {/* Tubelight Navbar - Mobilde bottom'da */}
-      <div className="md:hidden">
-        <NavBar
-          items={[
-            { name: "Hizmetler", url: "#services", icon: Shield },
-            { name: "Avantajlar", url: "#advantages", icon: CheckCircle },
-            { name: "Sigorta Şirketleri", url: "#partners", icon: Briefcase },
-            { name: "İletişim", url: "#contact", icon: Phone },
-          ]}
-          activeTab={activeNavTab}
-          onTabChange={setActiveNavTab}
-        />
-      </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
@@ -503,24 +489,24 @@ function TurkishInsuranceLanding() {
         </motion.div>
       )}
 
-      <main className="flex-1 pb-20 sm:pb-0">
+      <main className="flex-1">
         {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 overflow-hidden">
           <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center text-center">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeIn}
-                className="flex flex-col justify-center space-y-4"
+                className="flex flex-col items-center justify-center space-y-4 text-center max-w-3xl mx-auto"
               >
                 <div className="space-y-4">
                   <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
-                    className="inline-flex items-center rounded-full bg-muted px-4 py-1 text-sm"
+                    className="inline-flex items-center rounded-full bg-muted px-4 py-1 text-sm mx-auto"
                   >
                     <Shield className="mr-2 h-4 w-4" />
                     Güvenilir Sigorta Çözümleri
@@ -540,7 +526,7 @@ function TurkishInsuranceLanding() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.4 }}
-                    className="max-w-[600px] text-muted-foreground md:text-xl"
+                    className="max-w-[600px] mx-auto text-muted-foreground md:text-xl"
                   >
                     Trafik sigortası, kasko, DASK ve daha fazlası için en uygun
                     teklifleri alın. 20 yıllık tecrübemizle yanınızdayız.
@@ -550,7 +536,7 @@ function TurkishInsuranceLanding() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.6 }}
-                  className="flex flex-col gap-3 sm:flex-row"
+                  className="flex flex-col gap-3 sm:flex-row sm:justify-center"
                 >
                   <Button 
                     size="lg" 
@@ -802,13 +788,13 @@ function TurkishInsuranceLanding() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeIn}
-            className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2"
+            className="container grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 max-w-5xl mx-auto"
           >
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="space-y-4"
+              className="space-y-4 text-center lg:text-left"
             >
               <div className="inline-block rounded-full bg-primary/10 px-4 py-1 text-sm text-primary">
                 İletişim
@@ -1086,10 +1072,10 @@ function TurkishInsuranceLanding() {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeIn}
-          className="container grid gap-8 px-4 py-10 md:px-6 lg:grid-cols-3"
+          className="container grid gap-8 px-4 py-10 md:px-6 lg:grid-cols-3 max-w-5xl mx-auto text-center lg:text-left"
         >
           <div className="space-y-3">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 justify-center lg:justify-start">
               <motion.div
                 whileHover={{ rotate: 5, scale: 1.1 }}
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
