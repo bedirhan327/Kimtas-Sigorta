@@ -369,7 +369,7 @@ function TurkishInsuranceLanding() {
             <button
               type="button"
               onClick={handleThemeToggle}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-foreground hover:bg-accent hover:text-primary transition-colors dark:bg-muted/60 dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-foreground"
               aria-label={isDark ? "Açık mod" : "Karanlık mod"}
             >
               {isDark ? (
@@ -457,7 +457,7 @@ function TurkishInsuranceLanding() {
                 <button
                   type="button"
                   onClick={handleThemeToggle}
-                  className="inline-flex h-10 w-full items-center justify-center rounded-full border border-border bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors text-sm"
+                  className="inline-flex h-10 w-full items-center justify-center rounded-full border border-border bg-card text-foreground hover:bg-accent hover:text-primary transition-colors text-sm dark:bg-muted/60 dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-foreground"
                   aria-label={isDark ? "Açık mod" : "Karanlık mod"}
                 >
                   {isDark ? (
@@ -518,7 +518,7 @@ function TurkishInsuranceLanding() {
                     className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
                   >
                     Geleceğinizi{" "}
-                    <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-primary to-blue-700 bg-clip-text text-transparent">
                       Güvence Altına Alın
                     </span>
                   </motion.h1>
@@ -575,7 +575,7 @@ function TurkishInsuranceLanding() {
         {/* Services Section */}
         <section
           id="services"
-          className="w-full py-12 md:py-24 lg:py-32 bg-muted/30"
+          className="w-full py-12 md:py-24 lg:py-32 bg-muted/50 dark:bg-muted/30"
         >
           <motion.div
             initial="hidden"
@@ -625,7 +625,7 @@ function TurkishInsuranceLanding() {
                   key={service.title}
                   variants={itemFadeIn}
                   whileHover={{ y: -10, transition: { duration: 0.3 } }}
-                  className="group relative overflow-hidden rounded-3xl border p-6 shadow-sm transition-all hover:shadow-md bg-background text-left"
+                  className="group relative overflow-hidden rounded-3xl border border-border p-6 shadow-sm transition-all hover:shadow-md hover:border-primary/40 bg-card text-left dark:bg-background"
                   onClick={() => openServiceForm(service.title)}
                 >
                   <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-all duration-300" />
@@ -701,7 +701,7 @@ function TurkishInsuranceLanding() {
                   key={advantage.title}
                   variants={itemFadeIn}
                   whileHover={{ scale: 1.05 }}
-                  className="flex flex-col items-center text-center p-6 rounded-3xl border bg-card"
+                  className="flex flex-col items-center text-center p-6 rounded-3xl border border-border bg-card shadow-sm dark:shadow-none"
                 >
                   <CheckCircle className="h-12 w-12 text-primary mb-4" />
                   <h3 className="text-lg font-bold mb-2">
@@ -871,7 +871,7 @@ function TurkishInsuranceLanding() {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
-              className="rounded-3xl border bg-card p-6 shadow-sm"
+              className="rounded-3xl border border-border bg-card p-6 shadow-sm"
             >
               <h3 className="text-xl font-bold mb-2">Teklif Formu</h3>
               <p className="text-sm text-muted-foreground mb-6">
@@ -1066,7 +1066,7 @@ function TurkishInsuranceLanding() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full border-t bg-muted/30">
+      <footer className="w-full border-t bg-muted/50 dark:bg-muted/30">
         <motion.div
           initial="hidden"
           whileInView="visible"
